@@ -24,16 +24,16 @@ pip install -r requirements.txt
 Скопируйте .env.example в .env и заполните настройки:
 
 cp .env.example .env
-Запустите сервис:
+
+2. Запустите сервис:
 
 python app/main.py
 Запуск через Docker
 
 docker-compose up -d
-SQL запрос для просмотра истории
 
-sql
--- Выводит все запросы и полученные курсы
+### Запрос в БД
+
 SELECT 
     r.id AS request_id,
     r.request_time,
@@ -51,20 +51,18 @@ ORDER BY r.request_time DESC, res.fetched_at DESC;
 
 requests — информация о запросах к API (время, статус, ошибки)
 responses — полученные курсы валют (связаны с requests)
-Логирование
+
+### Логирование
 
 Ошибки записываются в файл logs/errors.log
 
-Переменные окружения
+### Названия переменных
 
-Переменная	Описание
-DB_HOST	Хост PostgreSQL
-DB_PORT	Порт PostgreSQL
-DB_NAME	Имя базы данных
-DB_USER	Пользователь БД
-DB_PASSWORD	Пароль БД
-API_KEY	Ключ API
-API_URL	URL API
-FETCH_INTERVAL	Интервал запросов (минуты)
-text
-=======
+DB_HOST	- Хост PostgreSQL
+DB_PORT	- Порт PostgreSQL
+DB_NAME	- Имя базы данных
+DB_USER	- Пользователь БД
+DB_PASSWORD	- Пароль БД
+API_KEY	- Ключ API
+API_URL	- URL API
+FETCH_INTERVAL - Интервал запросов (минуты)
