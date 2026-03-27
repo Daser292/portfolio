@@ -2,15 +2,15 @@ import os
 import time
 import schedule
 from dotenv import load_dotenv
-from database import Database
-from fetcher import CurrencyFetcher
-from logger_config import setup_logger
+import database
+import fetcher
+import logger_config
 
 # Загружаем настройки из файла .env
-load_dotenv()
+load_dotenv(dotenv_path='portfolio/exchange_rates_API/.env')
 
 # Настраиваем логирование
-info_logger, error_logger = setup_logger()
+info_logger, error_logger = logger_config.setup_logger()
 
 def fetch_and_save():
     """Главная функция: получить курсы и сохранить в базу"""
@@ -19,8 +19,8 @@ def fetch_and_save():
     info_logger.info("Начинаю получение курсов валют")
     
     # Создаем объекты для работы с базой и API
-    db = Database()
-    fetcher = CurrencyFetcher(
+    db = database.Database()
+    fetch = fetcher.CurrencyFetcher(
         api_key=os.getenv('API_KEY'),
         api_url=os.getenv('API_URL')
     )
@@ -37,7 +37,7 @@ def fetch_and_save():
         return
     
     # Получаем курсы валют
-    result = fetcher.fetch_rates()
+    result = fetch.fetch_rates()
     
     if result['success']:
         info_logger.info(f"Успешно получены данные. Время ответа: {result['response_time']}мс")
@@ -50,7 +50,7 @@ def fetch_and_save():
         
         if request_id:
             # Извлекаем курсы из ответа API
-            rates = fetcher.parse_rates(result['data'])
+            rates = fetch.parse_rates(result['data'])
             
             # Сохраняем каждый курс в базу
             for rate in rates:
@@ -86,7 +86,7 @@ def main():
     """Главная функция, запускает программу"""
     
     # Получаем интервал из настроек (по умолчанию 10 минут)
-    interval = int(os.getenv('FETCH_INTERVAL', 10))
+    interval = int(os.getenv('FETCH_INTERVAL', 1))
     
     info_logger.info(f"Сервис запущен. Интервал: {interval} минут")
     
