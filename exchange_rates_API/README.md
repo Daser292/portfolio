@@ -13,15 +13,22 @@
 
 ### Локальный запуск
 
-1. Создайте базу данных PostgreSQL:
+1. #### Создайте базу данных PostgreSQL:
+
     createdb currency_db
+
     Установите зависимости:
+
     pip install -r requirements.txt
+
     Скопируйте .env.example в .env и заполните настройки:
+
     cp .env.example .env
 
-2. Запустите сервис:
+2. #### Запустите сервис:
+
     python app/main.py
+
     Запуск через Docker
 
     docker-compose up -d
